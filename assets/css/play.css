@@ -171,9 +171,8 @@
 }
 .leter-content.active{
     width: 370px;
-    height: 640px;
-    height: 95%;
-    margin: 0 auto;
+    height: 80%;
+    margin: 5% auto;
 }
 .leter-content img{
     width: 100%;
