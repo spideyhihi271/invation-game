@@ -130,7 +130,10 @@
     height: 60px;
     margin: 0 auto;
 }
-
+.letter-loading{
+    color: white;
+    font-size: 18px;
+}
 .letter-btn{
     display: flex;
     align-items: center;
