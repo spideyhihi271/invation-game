@@ -57,7 +57,7 @@ function letterAction() {
   letterContainer = document.querySelector(".letter");
   letterContainer.classList.add("active");
   letterScore = document.querySelector("#score");
-  letterScore.innerHTML = score;
+  letterScore.innerHTML = giftCount + 1;
   // Show Content
   letterOpenBtn = document.querySelector(".letter-open");
   letterOpenBtn.addEventListener("click", () => {

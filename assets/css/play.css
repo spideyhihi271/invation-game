@@ -82,21 +82,15 @@
     position: fixed;
     inset: 0;
     height: 100%;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.4);
-    transform: translateY(100%);
-    opacity: 0;
-    transition: all ease-in-out 0.5s;
 }
 .letter.active{
-    transform: translateY(0);
-    opacity: 1;
+    display: flex;
     background-color: rgba(0, 0, 0, 0.4);
 }
-
-
 .letter-header{
     display: block;
 }
@@ -170,7 +164,7 @@
 .leter-content.active{
     width: 370px;
     height: 90%;
-    margin: 5% auto;
+    margin: 2% auto;
 }
 .leter-content img{
     width: 100%;
@@ -178,7 +172,6 @@
     object-fit: cover;
     object-position: center;
 }
-
 .gift-count{
     position: fixed;
     right: 5px;
