@@ -171,13 +171,14 @@
 }
 .leter-content.active{
     width: 370px;
-    height: 80%;
+    height: 90%;
     margin: 5% auto;
 }
 .leter-content img{
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 
