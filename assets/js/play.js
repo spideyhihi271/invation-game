@@ -156,7 +156,7 @@ let markContainer;
 //physics
 let velocityX = -2;
 let velocityY = 0;
-let gravity = 0.4;
+let gravity = 0.25;
 let timer = 2200;
 let gameOver = false;
 let score = 0;
