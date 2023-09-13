@@ -53,29 +53,29 @@ let resetGame;
 function letterAction() {
   // Show Letter
   markContainer.style.display = "none";
+  giftCountContainer.classList.remove('active');
   letterContainer = document.querySelector(".letter");
-  if (gift.isPassed) letterContainer.classList.add("full");
-  else letterContainer.classList.add("nogift");
+  letterContainer.classList.add("active");
   letterScore = document.querySelector("#score");
   letterScore.innerHTML = score;
   // Show Content
-  if (gift.isPassed) {
-    letterOpenBtn = document.querySelector(".letter-open");
-    letterOpenBtn.addEventListener("click", () => {
-      letterContent = document.querySelector(".leter-content");
-      letterContent.classList.add("active");
-      // Ẩn thư
-      letterContent.addEventListener("click", () => {
-        letterContent.classList.remove("active");
-      });
+  letterOpenBtn = document.querySelector(".letter-open");
+  letterOpenBtn.addEventListener("click", () => {
+    letterContent = document.querySelector(".leter-content");
+    letterContent.classList.add("active");
+    // Ẩn thư
+    letterContent.addEventListener("click", () => {
+      letterContent.classList.remove("active");
     });
-  }
+  });
 
   // Reset Game
+
   resetGame = document.querySelector(".reset-game");
   resetGame.addEventListener("click", () => {
-    document.querySelector('.letter-btn').innerHTML = `<p class="letter-loading">Vui lòng chờ...</p>`;
-    console.log(letterContainer);
+    document.querySelector(
+      ".letter-btn"
+    ).innerHTML = `<p class="letter-loading">Vui lòng chờ...</p>`;
     setTimeout(() => {
       window.location.reload();
     }, 1000);
@@ -95,6 +95,7 @@ function updateLogger() {
   if (count >= logger.length) {
     clearInterval(clearID);
     welcomeContainer.classList.add("hidden");
+    giftCountContainer.classList.add('active');
     start = true;
     startGame();
   }
@@ -131,11 +132,15 @@ let topPipeImg;
 let bottomPipeImg;
 
 // Gift
+let giftCountContainer;
+let gitCountLable; 
 let giftWidth = 54;
 let giftHeight = 44;
 let giftX = pipeHeight + pipeHeight * 0.2;
 let giftY = boardHeight * 0.4;
 let giftImg;
+let giftCount = 0;
+let giftPass = false;
 
 let gift = {
   x: giftX,
@@ -193,6 +198,8 @@ window.onload = function () {
   // Ready
   loggerContainer = document.querySelector("#welcome-log");
   welcomeContainer = document.querySelector(".welcome");
+  giftCountContainer = document.querySelector('.gift-count');
+  gitCountLable = document.querySelector('#gift-title');
 
   // Mark
   markContainer = document.querySelector("#mark");
@@ -218,27 +225,30 @@ function update() {
     context.clearRect(0, 0, board.width, board.height);
   }
 
-  //bird
-  velocityY += gravity;
-  bird.y = Math.max(bird.y + velocityY, 0);
-  context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
-
-  if (bird.y >= board.height) {
-    gameOver = true;
-  }
-
   // Gift
   // Đã đụng trúng
   gift.x -= 2;
   if (gift.isPassed === true) {
-    gift.x += 4;
     gift.y -= 4;
+    if(gift.y < 0) {
+      giftCount++; 
+      gift.x = boardWidth * 1.5;
+      gift.y = boardHeight * 0.4;
+      gift.isPassed = false;
+      gitCountLable.innerHTML = giftCount;
+    }
   } else if (gift.isPassed === false && gift.x < 0) {
     gift.x = boardWidth * 1.5;
+    gift.y = boardHeight * 0.4;
+    gift.isPassed = false; 
   }
-
   if (detectCollision(bird, gift)) {
     gift.isPassed = true;
+    if(giftCount === 2) {
+      setTimeout(() => {
+        gameOver = true;
+      }, 1000);
+    }
   }
   context.drawImage(giftImg, gift.x, gift.y, gift.width, gift.height);
 
@@ -252,15 +262,20 @@ function update() {
       score += 0.5;
       pipe.passed = true;
     }
-
-    if (detectCollision(bird, pipe)) {
-      gameOver = true;
-    }
   }
 
   //clear pipes
   while (pipeArray.length > 0 && pipeArray[0].x < -pipeWidth) {
     pipeArray.shift();
+  }
+
+  //bird
+  velocityY += gravity;
+  bird.y = Math.max(bird.y + velocityY, 0);
+  context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+
+  if (bird.y >= board.height * 0.85) {
+   moveBird()
   }
 
   //score
